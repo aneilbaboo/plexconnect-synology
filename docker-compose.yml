@@ -1,0 +1,30 @@
+version: '2'
+services:
+  plexconnect:
+    build: .
+    container_name: plexconnect
+    hostname: plexconnect
+    networks:
+      macprivate:
+        ipv4_address: 192.168.178.201
+      macpublic:
+        ipv4_address: 192.168.179.201
+    ports:
+      - 443:443/tcp
+      - 80:80/tcp
+    volumes:
+      - type: bind
+        source: /volume1/docker/plexconnect/atvsettings.cfg
+        target: /PlexConnect/ATVSettings.cfg
+    restart: unless-stopped
+    environment:
+      PLEXCONNECT_LOGLEVEL: 'High'
+      PLEXCONNECT_IP_PMS: 192.168.179.207
+      PLEXCONNECT_ENABLE_PLEXCONNECT_AUTODETECT: 'False'
+      PLEXCONNECT_ENABLE_PLEXGDM: 'False'
+networks:
+  macpublic:
+    external: true
+  macprivate:
+    external: true
+    
